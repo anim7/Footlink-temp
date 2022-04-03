@@ -37,7 +37,7 @@ interface State {
   withdrawTab: boolean;
 }
 class App extends React.Component<Props, State> {
-  address = "0x6373De35990545028bDE8b19270f7d87b157Ff42";
+  address = "0xE18F1ccA896a5faD13c90E7bb4382368D1e46649";
   constructor(props: Props) {
     super(props);
     const emptyContract = new ethers.Contract(
