@@ -6,7 +6,6 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract FutNFT is ERC721, ERC721Enumerable, Ownable {
-    /// @dev Should have logic for players with no suitable position array
     struct Player {
         string name;
         string preferredPosition;

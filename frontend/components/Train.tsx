@@ -175,10 +175,11 @@ export class Train extends Component<Props, State> {
           value: fee,
         });
       await tx.wait();
+      this.props.setLoader(false);
     } catch (err) {
-      console.error(err);
+      document.getElementById("errorAlert")!.style.display = "inline-block";
+      this.props.setLoader(false);
     }
-    this.props.setLoader(false);
   };
 
   handleYesClick = async (player: PlayerInterface) => {
@@ -187,9 +188,6 @@ export class Train extends Component<Props, State> {
     const timestamp = Math.floor(new Date().getTime() / 1000);
     const lastUpgrade = player.lastUpgrade;
     const cooldown = this.state.cooldown;
-    console.log(timestamp);
-    console.log(player);
-    console.log(cooldown);
     if (timestamp - lastUpgrade >= cooldown) {
       await this.levelUp(player.id);
     } else {
@@ -233,7 +231,6 @@ export class Train extends Component<Props, State> {
             }
             return true;
           });
-          console.log(minLevel, maxLevel);
           this.setState({ players: newPlayers });
           this.props.setLoader(false);
         }, 1500);

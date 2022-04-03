@@ -142,40 +142,6 @@ class NavbarClass extends Component<Props, State> {
                   this.props.account.substring(this.props.account.length - 5)
                 : this.props.account}
             </button>
-            <div>
-              <button
-                className={navStyles.deposit}
-                onClick={() => {
-                  if (this.state.lineup.isValid) {
-                    this.props.setDepositTab(true);
-                  }
-                }}
-              >
-                <Image
-                  src="/deposit.png"
-                  className={navStyles.depositImage}
-                  alt="Deposit"
-                  width={30}
-                  height={30}
-                />
-              </button>
-              <button
-                className={navStyles.deposit}
-                onClick={() => {
-                  if (this.state.lineup.isValid) {
-                    this.props.setWithdrawTab(true);
-                  }
-                }}
-              >
-                <Image
-                  src="/withdraw.png"
-                  className={navStyles.depositImage}
-                  alt="Deposit"
-                  width={30}
-                  height={30}
-                />
-              </button>
-            </div>
           </div>
         </nav>
         <Alert message="Copied!" okEnabled={false} id="copied" />

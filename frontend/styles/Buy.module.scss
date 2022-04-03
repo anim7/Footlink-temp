@@ -2,6 +2,13 @@
 
 .buyContainer {
   @include flexContainer(center, center, row, wrap);
+  .player {
+    @include flexContainer(center, center, column, nowrap);
+    .price {
+      margin-top: -2rem;
+      font-size: 1.3rem;
+    }
+  }
 }
 
 .conform {

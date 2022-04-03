@@ -4,7 +4,7 @@
   @include flexContainer(center, center, column, nowrap);
   .position {
     position: relative;
-    left: 7rem;
+    left: 7.5rem;
     top: 1.2rem;
     background-color: red;
     padding: 0.1rem;
@@ -22,8 +22,8 @@
       background-color: rgb(0, 0, 36);
       margin-bottom: 0.5rem;
       border: 0.1rem solid white;
-      height: 26rem;
-      width: 15rem;
+      height: 27rem;
+      width: 16rem;
       text-align: center;
       .imageContainer {
         border-bottom: 0.1rem solid white;

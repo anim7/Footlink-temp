@@ -73,7 +73,6 @@ export interface FutNFTMatchInterface extends utils.Interface {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "cooldown()": FunctionFragment;
-    "deposit()": FunctionFragment;
     "earnedThroughTraining()": FunctionFragment;
     "fee()": FunctionFragment;
     "formationToPositions(string,uint256)": FunctionFragment;
@@ -106,7 +105,6 @@ export interface FutNFTMatchInterface extends utils.Interface {
     "name()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "ownersToDeposits(address)": FunctionFragment;
     "play()": FunctionFragment;
     "playerToOwner(uint256)": FunctionFragment;
     "randomResult()": FunctionFragment;
@@ -134,7 +132,6 @@ export interface FutNFTMatchInterface extends utils.Interface {
     "transferPlayer(uint256)": FunctionFragment;
     "unlist(uint256)": FunctionFragment;
     "withdraw(uint256)": FunctionFragment;
-    "withdrawDeposit(uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -151,7 +148,6 @@ export interface FutNFTMatchInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(functionFragment: "cooldown", values?: undefined): string;
-  encodeFunctionData(functionFragment: "deposit", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "earnedThroughTraining",
     values?: undefined
@@ -256,10 +252,6 @@ export interface FutNFTMatchInterface extends utils.Interface {
     functionFragment: "ownerOf",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(
-    functionFragment: "ownersToDeposits",
-    values: [string]
-  ): string;
   encodeFunctionData(functionFragment: "play", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "playerToOwner",
@@ -359,10 +351,6 @@ export interface FutNFTMatchInterface extends utils.Interface {
     functionFragment: "withdraw",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(
-    functionFragment: "withdrawDeposit",
-    values: [BigNumberish]
-  ): string;
 
   decodeFunctionResult(
     functionFragment: "addFormation",
@@ -375,7 +363,6 @@ export interface FutNFTMatchInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "cooldown", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "earnedThroughTraining",
     data: BytesLike
@@ -459,10 +446,6 @@ export interface FutNFTMatchInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "ownersToDeposits",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "play", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "playerToOwner",
@@ -547,10 +530,6 @@ export interface FutNFTMatchInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "unlist", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "withdrawDeposit",
-    data: BytesLike
-  ): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
@@ -666,10 +645,6 @@ export interface FutNFTMatch extends BaseContract {
     balanceOf(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
     cooldown(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    deposit(
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
 
     earnedThroughTraining(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -791,11 +766,6 @@ export interface FutNFTMatch extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    ownersToDeposits(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
 
     play(
       overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -937,11 +907,6 @@ export interface FutNFTMatch extends BaseContract {
       _price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    withdrawDeposit(
-      _price: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
   };
 
   addFormation(
@@ -961,10 +926,6 @@ export interface FutNFTMatch extends BaseContract {
   balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   cooldown(overrides?: CallOverrides): Promise<BigNumber>;
-
-  deposit(
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   earnedThroughTraining(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1075,8 +1036,6 @@ export interface FutNFTMatch extends BaseContract {
   owner(overrides?: CallOverrides): Promise<string>;
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  ownersToDeposits(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
   play(
     overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -1213,11 +1172,6 @@ export interface FutNFTMatch extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  withdrawDeposit(
-    _price: BigNumberish,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   callStatic: {
     addFormation(
       formation: string,
@@ -1239,8 +1193,6 @@ export interface FutNFTMatch extends BaseContract {
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     cooldown(overrides?: CallOverrides): Promise<BigNumber>;
-
-    deposit(overrides?: CallOverrides): Promise<void>;
 
     earnedThroughTraining(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1350,11 +1302,6 @@ export interface FutNFTMatch extends BaseContract {
     owner(overrides?: CallOverrides): Promise<string>;
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    ownersToDeposits(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     play(overrides?: CallOverrides): Promise<void>;
 
@@ -1468,11 +1415,6 @@ export interface FutNFTMatch extends BaseContract {
     unlist(_playerId: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     withdraw(_price: BigNumberish, overrides?: CallOverrides): Promise<void>;
-
-    withdrawDeposit(
-      _price: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
   };
 
   filters: {
@@ -1552,10 +1494,6 @@ export interface FutNFTMatch extends BaseContract {
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     cooldown(overrides?: CallOverrides): Promise<BigNumber>;
-
-    deposit(
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
 
     earnedThroughTraining(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1667,11 +1605,6 @@ export interface FutNFTMatch extends BaseContract {
 
     ownerOf(
       tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    ownersToDeposits(
-      arg0: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1815,11 +1748,6 @@ export interface FutNFTMatch extends BaseContract {
       _price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
-
-    withdrawDeposit(
-      _price: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -1846,10 +1774,6 @@ export interface FutNFTMatch extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     cooldown(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    deposit(
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
 
     earnedThroughTraining(
       overrides?: CallOverrides
@@ -1976,11 +1900,6 @@ export interface FutNFTMatch extends BaseContract {
 
     ownerOf(
       tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    ownersToDeposits(
-      arg0: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -2123,11 +2042,6 @@ export interface FutNFTMatch extends BaseContract {
     withdraw(
       _price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    withdrawDeposit(
-      _price: BigNumberish,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

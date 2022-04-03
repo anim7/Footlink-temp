@@ -6,7 +6,6 @@ import getPlayersByOwner from "../utils/getPlayersByOwner";
 import { getPlayer } from "../utils/getPlayer";
 import { ethers } from "ethers";
 import Popup from "./Popup";
-import PlayerInformation from "./PlayerInformation";
 import Filter from "./Filter";
 
 interface Props {
@@ -97,7 +96,6 @@ export class Sell extends Component<Props, State> {
             }
             return true;
           });
-          console.log(minLevel, maxLevel);
           this.setState({ players: newPlayers });
           this.props.setLoader(false);
         }, 1500);

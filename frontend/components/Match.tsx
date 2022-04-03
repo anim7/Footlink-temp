@@ -1,6 +1,4 @@
-import { match } from "assert";
 import { ethers } from "ethers";
-import Image from "next/image";
 import { NextRouter, useRouter } from "next/router";
 import React, { Component } from "react";
 import { Lineup } from "../global/lineup";
@@ -74,8 +72,6 @@ class Match extends Component<PropsWithRouter, State> {
       );
     }
     await this.getUserLineup();
-    console.log("Players: ");
-    console.log(this.state.players);
     this.props.setLoader(false);
   }
 
@@ -107,7 +103,6 @@ class Match extends Component<PropsWithRouter, State> {
         if (!this.state.lineupSet) {
           this.setState({ lineupSet: true });
         }
-        console.log("correct");
       }
     } else {
       if (this.state.lineupSet) {
@@ -122,14 +117,11 @@ class Match extends Component<PropsWithRouter, State> {
       const teamRating = await this.props.futNFTMatch.getTeamRating(
         this.props.account
       );
-      console.log("Team rating:");
-      console.log(teamRating);
       setTimeout(() => {
         this.setState({ teamRating: teamRating.toString() });
         this.props.setLoader(false);
       }, 1500);
     } catch (err) {
-      document.getElementById("errorAlert")!.style.display = "inline-block";
       this.props.setLoader(false);
     }
   };
@@ -372,7 +364,7 @@ class Match extends Component<PropsWithRouter, State> {
                         className={matchStyles.imageContainer}
                         id={`playerImage${key}`}
                       >
-                        <Image
+                        <img
                           src={player.imageURI}
                           alt="Player Image"
                           width={150}
@@ -387,23 +379,6 @@ class Match extends Component<PropsWithRouter, State> {
               }
             })}
           </div>
-          {/* {this.state.lineUpPlayers.length == 11 && (
-          <>
-            <h2>Select Positions for your Players</h2>
-            <div className={matchStyles.selectPositions}>
-              <div className={matchStyles.positionsImageContainer}>
-                <Image
-                  src={this.state.lineUpPlayers[0].imageURI}
-                  alt="Player Image"
-                  width={225}
-                  height={315}
-                />
-              </div>
-              <p>{this.state.lineUpPlayers[0].name}</p>
-              <p>LVL {this.state.lineUpPlayers[0].level}</p>
-            </div>
-          </>
-        )} */}
           {this.state.lineupSet && (
             <div>
               <button
@@ -464,13 +439,16 @@ class Match extends Component<PropsWithRouter, State> {
                       const tx = await this.props.futNFTMatch
                         .connect(signer)
                         .play({
-                          // value: matchFee,
+                          value: matchFee,
                           gasLimit: 2000000,
                           gasPrice: 30000000000,
                         });
                       await tx.wait();
+                      setTimeout(async () => {
+                        const random =
+                          await this.props.futNFTMatch.randomResult();
+                      }, 5000);
                     } catch (err) {
-                      console.error(err);
                       document.getElementById("errorAlert")!.style.display =
                         "inline-block";
                       this.props.setLoader(false);

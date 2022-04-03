@@ -10,9 +10,8 @@ contract FutNFTMatch is FutNFTTransfer, VRFConsumer {
     mapping(string => string[]) public formationToPositions;
     string[] public formations;
     string[] public allPositions;
-    uint256 public lineupFee = 0.5 ether;
+    uint256 public lineupFee = 1 ether;
     uint256 public matchFee = 1 ether;
-    // uint256 public lineupFee = 0.001 ether;
     address[] public lineupSet;
 
     modifier playersOwned(uint256[11] memory _playerIds) {
@@ -128,11 +127,11 @@ contract FutNFTMatch is FutNFTTransfer, VRFConsumer {
         require(msg.value == lineupFee, "Required fee not sent!");
         lineUps[msg.sender] = LineUp(_playerIds, _positions, _formation, true);
         lineupSet.push(msg.sender);
-        return _getTeamRating(msg.sender);
+        return getTeamRating(msg.sender);
     }
 
-    function _getTeamRating(address _owner)
-        internal
+    function getTeamRating(address _owner)
+        public
         view
         lineUpSet(_owner)
         returns (uint256)
@@ -188,13 +187,13 @@ contract FutNFTMatch is FutNFTTransfer, VRFConsumer {
     function getOpponent() public lineUpSet(msg.sender) returns(address) {
         require(lineupSet.length > 1, "Players not available!");
         getRandomNumber();
-        randomResult = (randomResult % lineupSet.length) + 1;
-        address opponent = lineupSet[randomResult - 1];
+        uint index = (randomResult % lineupSet.length) + 1;
+        address opponent = lineupSet[index - 1];
         if(msg.sender == opponent) {
-            if(randomResult == lineupSet.length) {
-                opponent = lineupSet[randomResult - 2];
+            if(index == lineupSet.length) {
+                opponent = lineupSet[index - 2];
             } else {
-                opponent = lineupSet[randomResult];
+                opponent = lineupSet[index];
             }
         }
         return opponent;
@@ -207,8 +206,8 @@ contract FutNFTMatch is FutNFTTransfer, VRFConsumer {
     {
         require(msg.value == matchFee, "Required fee not sent!");
         address _opponent = getOpponent();
-        uint256 teamRating = _getTeamRating(msg.sender);
-        uint256 opponentTeamRating = _getTeamRating(_opponent);
+        uint256 teamRating = getTeamRating(msg.sender);
+        uint256 opponentTeamRating = getTeamRating(_opponent);
         uint256 winProbability = 50;
         if (teamRating > opponentTeamRating) {
             winProbability = 50 + ((teamRating - opponentTeamRating) * 3);
@@ -216,9 +215,9 @@ contract FutNFTMatch is FutNFTTransfer, VRFConsumer {
             winProbability = 50 - ((opponentTeamRating - teamRating) * 3);
         }
         getRandomNumber();
-        randomResult = (randomResult % 100) + 1;
         address payable winner;
-        if (randomResult <= winProbability) {
+        uint percent = (randomResult % 100) + 1;
+        if (percent <= winProbability) {
             ownerHistory[msg.sender].winCount++;
             ownerHistory[_opponent].lossCount++;
             winner = payable(msg.sender);

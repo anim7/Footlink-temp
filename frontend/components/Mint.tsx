@@ -54,8 +54,6 @@ class Mint extends Component<PropsWithRouter, State> {
       description: "FutNFT image",
       image: file,
     });
-    console.log(metadata.data.image);
-
     let imageURI = metadata.data.image.href;
     imageURI = imageURI.replace("ipfs://", "");
     imageURI = imageURI.replace("/", ".ipfs.dweb.link/");
@@ -163,19 +161,16 @@ class Mint extends Component<PropsWithRouter, State> {
             className={mintStyles.submit}
             onClick={async () => {
               this.props.setLoader(true);
-              console.log("start");
               const file = (
                 document.getElementById(
                   mintStyles.imageUpload
                 )! as HTMLInputElement
               ).files![0];
-              console.log(file);
               const name = (
                 document.getElementById("name")! as HTMLInputElement
               ).value;
 
               const imageURI = await this.storeFile(name, file);
-              console.log(imageURI);
 
               let player: Player = {
                 id: parseInt(

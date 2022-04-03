@@ -54,6 +54,7 @@
     }
     ul {
       @include flexContainer(center, center, column, nowrap);
+      font-size: 1.3rem;
     }
     #play {
       background-color: #007bff;

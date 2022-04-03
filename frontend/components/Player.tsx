@@ -40,11 +40,11 @@ export class Player extends Component<Props, State> {
               }}
             >
               <div className={playerStyles.imageContainer}>
-                <Image
+                <img
                   src={this.props.player.imageURI}
                   alt="Player Image"
-                  width={300}
-                  height={420}
+                  width={250}
+                  height={350}
                 />
               </div>
               <p>{this.props.player.name}</p>

@@ -20,6 +20,7 @@ interface State {
   conform: boolean;
   currentPlayer: PlayerInterface;
   owners: string[];
+  prices: string[];
 }
 
 export class Buy extends Component<Props, State> {
@@ -38,6 +39,7 @@ export class Buy extends Component<Props, State> {
         preferredPosition: "",
         suitablePositions: [],
       },
+      prices: [],
       owners: [],
     };
   }
@@ -45,8 +47,6 @@ export class Buy extends Component<Props, State> {
   async componentDidMount() {
     this.props.setLoader(true);
     await this.getListedPlayers();
-    console.log("Listed Players: ");
-    console.log(this.state.listedPlayers);
   }
 
   getListedPlayers = async () => {
@@ -56,36 +56,22 @@ export class Buy extends Component<Props, State> {
         await this.props.futNFT.getListedPlayers();
       const listedPlayers: PlayerInterface[] = [];
       const owners: string[] = [];
+      const prices: string[] = [];
       listedPlayerIds.forEach(async (playerId) => {
         if (playerId.toString() !== "0") {
           const player = await this.props.futNFT.getPlayer(playerId);
+          const price = await this.props.futNFT.listedPlayersPrices(playerId);
           const owner = await this.props.futNFT.ownerOf(playerId);
           owners.push(owner);
           listedPlayers.push(player);
+          prices.push(ethers.utils.formatUnits(price.toString(), "ether"));
         }
       });
-      // const player: PlayerInterface = {
-      //   id: 2,
-      //   age: 37,
-      //   imageURI:
-      //     "https://bafybeia6f4lqbkyynn7pg6nu3fcu7q33ejby3lrcyqzrmywixps2ga6gwi.ipfs.dweb.link/cristiano_ronaldo.png",
-      //   lastUpgrade: Math.floor(new Date().getTime() / 1000) - 43300,
-      //   level: 17,
-      //   name: "Cristiano Ronaldo",
-      //   preferredPosition: "ST",
-      //   suitablePositions: ["LFW", "CF"],
-      // };
-      // const provider: ethers.providers.Web3Provider = (window as any).provider;
-      // const signer = provider.getSigner();
-      // const tx = await this.props.futNFT.connect(signer).mint(player, {
-      //   gasLimit: 1000000,
-      //   gasPrice: 30000000000,
-      // });
-      // await tx.wait();
       setTimeout(() => {
         this.setState({
           listedPlayers: listedPlayers,
           owners: owners,
+          prices: prices,
         });
         this.props.setLoader(false);
       }, 1000);
@@ -180,7 +166,6 @@ export class Buy extends Component<Props, State> {
             return true;
           });
           this.setState({ listedPlayers: newPlayers });
-          console.log(this.state.listedPlayers);
         }, 1500);
       }
     } catch (err) {
@@ -216,25 +201,29 @@ export class Buy extends Component<Props, State> {
           {this.state.listedPlayers.map((player, key) => {
             if (player.name.length > 0) {
               return (
-                <Player
-                  btnId={`buyBtn${key}`}
-                  setPlayerInfo={this.props.setPlayerInfo}
-                  setPlayerInfoActivated={this.props.setPlayerInfoActivated}
-                  key={key}
-                  player={player}
-                  btnText={
-                    this.props.account.toLowerCase() ==
-                    this.state.owners[key].toLowerCase()
-                      ? `Unlist`
-                      : "Buy"
-                  }
-                  handleClick={() => {
-                    this.setState({
-                      currentPlayer: player,
-                      conform: true,
-                    });
-                  }}
-                />
+                <div key={key} className={buyStyles.player}>
+                  <Player
+                    btnId={`buyBtn${key}`}
+                    setPlayerInfo={this.props.setPlayerInfo}
+                    setPlayerInfoActivated={this.props.setPlayerInfoActivated}
+                    player={player}
+                    btnText={
+                      this.props.account.toLowerCase() ==
+                      this.state.owners[key].toLowerCase()
+                        ? `Unlist`
+                        : "Buy"
+                    }
+                    handleClick={() => {
+                      this.setState({
+                        currentPlayer: player,
+                        conform: true,
+                      });
+                    }}
+                  />
+                  <p className={buyStyles.price}>
+                    {this.state.prices[key]} MATIC
+                  </p>
+                </div>
               );
             }
           })}

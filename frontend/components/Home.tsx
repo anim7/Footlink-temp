@@ -24,27 +24,25 @@ export class Home extends Component<Props, State> {
         </div>
         <div className={homeStyles.earnMoney}>
           <h2>Different Ways to Earn Money</h2>
-          <p>
-            There are two ways to earn money through this game:
-            <ul>
-              <li>
-                By playing matches against other players: You can win money by
-                playing matches against other players. The higher you team
-                rating the better chances you have to win.
-              </li>
-              <Link href="/play">
-                <a id={homeStyles.play}>Play</a>
-              </Link>
-              <li>
-                By selling players you have bought at higher prices: You can
-                sell players at higher prices to earn money. You can also train
-                players and improve their level to get more money.
-              </li>
-              <Link href="/sell">
-                <a id={homeStyles.sell}>Sell</a>
-              </Link>
-            </ul>
-          </p>
+          <p>There are two ways to earn money through this game:</p>
+          <ul>
+            <li>
+              By playing matches against other players: You can win money by
+              playing matches against other players. The higher you team rating
+              the better chances you have to win.
+            </li>
+            <Link href="/play">
+              <a id={homeStyles.play}>Play</a>
+            </Link>
+            <li>
+              By selling players you have bought at higher prices: You can sell
+              players at higher prices to earn money. You can also train players
+              and improve their level to get more money.
+            </li>
+            <Link href="/sell">
+              <a id={homeStyles.sell}>Sell</a>
+            </Link>
+          </ul>
         </div>
         <div className={homeStyles.training}>
           <h2>Training</h2>

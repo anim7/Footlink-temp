@@ -23,9 +23,6 @@ export const Settings: React.FunctionComponent<Props> = ({
 
   const [formation, setFormation] = useState<string>("");
   const [positions, setPositions] = useState<string[]>([]);
-  // const [signer, _] = useState<ethers.Signer>(
-  //   (window as any).provider.getSigner()
-  // );
   return (
     <div className={settingsStyles.settingsContainer}>
       <h2>Mint New NFTs</h2>
