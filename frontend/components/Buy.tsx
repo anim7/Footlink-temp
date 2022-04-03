@@ -74,7 +74,7 @@ export class Buy extends Component<Props, State> {
           prices: prices,
         });
         this.props.setLoader(false);
-      }, 1000);
+      }, 2000);
     } catch (err) {
       document.getElementById("errorAlert")!.style.display = "inline-block";
       this.props.setLoader(false);
